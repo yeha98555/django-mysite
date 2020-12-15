@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Course Detail{% endblock %}
+{% block content %}
+<div class="row vertical-middle-sm">
+    <h1 class="text-center">{{ object.title }}</h1>
+    <p class="text-center">讲师：{{ object.user.username }}</p>
+    <p>简介：{{ object.overview }}</p>
+    {% if object.video %}
+        <div class="text-center">
+            <video src="{{ object.video.url }}" class="text-center" controls="controls" width="800"></video>
+        </div>
+    {% else %}
+        <p>没有视频</p>
+    {% endif %}
+    {% if object.attach %}
+        <p>下载课件：<a href="{{ object.attach.url }}">{{ object.attach.name|slice:"15:" }}</a></p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Course {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Python全栈课程</h1>
+    <p>欢迎学习本课程，请讲老师：</p>
+    <ul>
+        <li>陆老师</li>
+        <li>何老师</li>
+        <li>齐老师</li>
+    </ul>
+    <p>关注微信公众号，可以阅读更多的学习资料</p>
+    {% load static %}
+    <img width="500" src="{% static 'img/djbook.jpg' %}" alt="">
+</div>
+{% endblock %}

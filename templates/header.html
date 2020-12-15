@@ -1,0 +1,41 @@
+{% load staticfiles %}
+<div class="container">
+    <nav class="navbar navbar-default" navigation>
+        <div class="navbar-header">
+            <img src="{% static  './images/logo.png' %}" alt="" width="100">
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'blog:blog_title' %}">BLOG</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li>
+                    <!-- start: 添加如下代码    -->
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" 
+                                    type="button" 
+                                    id="dropdownMenu" 
+                                    data-toggle="dropdown">
+                            {{ user.username }}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <!-- 新增下面这行 -->
+                            <li><a href="{% url 'blog:blog_post' %}">发布博客</a></li>
+                            <li><a href="{% url 'account:password_change' %}">修改密码</a></li>
+                            <li><a href="{% url 'account:aboutme' %}">个人信息</a></li>
+                        </ul>
+                    </div>
+                    <!-- end: -->
+                </li>
+                <li><a href="{% url 'account:user_logout' %}">退出</a></li>
+                {% else %}
+                <li><a href="{% url 'account:user_login' %}">登录</a></li>
+                {% endif %}
+            </ul>     
+        </div>
+    </nav>
+</div>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>

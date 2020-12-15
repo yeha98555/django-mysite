@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Post blog{% endblock %}
+<!-- new 引入 markdown的css文件 -->
+{% block style %}
+<link rel="stylesheet" href="{% static 'editor/css/editormd.min.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="row text-center">
+    <form action="." class="form-horizontal" method="post">
+        <div class="row">
+            <div class="col-md-2 text-right">标题：</div>
+            <div class="col-md-10 text-left">{{ blog_form.title }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 text-right">内容：</div>
+            <!-- <div class="col-md-10 text-left">{{ blog_form.body }}</div>-->
+            <!-- 添加下面的textarea -->
+            <div id="editormd" class="col-md-10 text-left">
+                <textarea style="display:none;" id="id_body"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <input type="button" value="发布博客" class="btn btn-primary btn-lg" onclick="post_blog()">
+        </div>
+    </form>
+</div>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/layer.js' %}"></script>
+<script src="{% static 'js/csrf.js' %}"></script>
+<!-- new 引入 markdown的js文件 -->
+<script src="{% static 'editor/editormd.min.js' %}"></script>
+<script>
+    function post_blog() {
+        var title = $('#id_title').val()
+        var body = $('#id_body').val()
+        $.ajax({
+            url: "{% url 'blog:blog_post' %}",
+            type: 'POST',
+            data: {'title': title, 'body': body},
+            success: function(e) {
+                if (e == '1') {
+                    layer.msg('发布成功', {icon:1, time:1000})
+                    // 新增下面这行代码，
+                    location.href = "{% url 'blog:blog_title' %}";
+                } else if(e == '-1') {
+                    layer.msg('服务器忙', {icon:2, time:1000})
+                } else {
+                    layer.msg('请检查输入的内容，不允许空.', {icon:2, time:1000})
+                }
+            }
+        })
+    }
+
+    // new
+    $(function(){
+        var editor = editormd('editormd', {
+            width: '100%',
+            height: 640,
+            syncScrolling: 'single',
+            path: "{% static 'editor/lib/' %}"
+        });
+    });
+</script>
+{% endblock %}

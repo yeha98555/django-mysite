@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+my blogs
+{% endblock %}
+
+{% block content %}
+<div>
+    <ul>
+        {% for blog in blogs %}
+            <li><a href="{{ blog.id }}">{{ blog.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% include 'paginator.html' %}
+</div>
+{% endblock %}
+
+{% block ad %}
+    {% load static %}
+    <img src="{% static './img/djbook.jpg' %}" width="400" alt="">
+{% endblock %}
